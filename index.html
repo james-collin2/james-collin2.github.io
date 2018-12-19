@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <section class="container">
+      <img src="./assets/img/logo/MicroLogoSVG.svg" alt="Logo" class="logo" />
+      <div id="ceramicax-creator" class="container">
+        <div id="page-scheme-selector" class="page-section visible">
+          <h2>Choose your pattern</h2>
+          <ul id="scheme-container" class="grid-simple"></ul>
+        </div>
+        <div id="page-layout-selector" class="page-section">
+          <ul id="layout-container">
+            <li class="section-row">
+              <div class="number"></div>
+              <h2 id="layout-title">The scheme</h2>
+            </li>
+            <li class="section-row">
+              <div class="number">1.</div>
+              <div id="layout-scheme-list" class="grid-simple border"></div>
+            </li>
+            <li class="section-row">
+              <div class="number">2.</div>
+              <div id="layout-scheme-color" class="grid-simple border"></div>
+            </li>
+            <li id="layout-scheme-options">
+              <div class="number">3.</div>
+              <div id="layout-scheme-info" class="border">
+                <div class="row">
+                  <h4>width</h4>
+                  <div class="input">
+                    <input type="text" id="scheme-width" required /> <small>cm</small>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <h4>sfrido</h4>
+                  <div class="input">
+                    <input type="text" id="scheme-sfrido" required /> <small>%</small>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <h4>height</h4>
+                  <div class="input">
+                    <input type="text" id="scheme-height" required /> <small>cm</small>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <div class="nav-buttons">
+            <button class="outline-btn" onclick="previousPage()">Previous</button>
+            <button class="outline-btn" onclick="layoutSubmit()">Next</button>
+          </div>
+        </div>
+
+        <div id="page-visualization" class="page-section">
+          <div class="reset-button"><button id="reset" class="outline-btn">Reset</button></div>
+          <div id="color-modals">
+            <div class="color-modal color1-modal">
+              <div class="border">
+                <h3>Color 1</h3>
+                <div class="color1-section color-grid"></div>
+                <button class="outline-btn" onclick="closeModal('color1')">Ok</button>
+              </div>
+            </div>
+
+            <div class="color-modal color2-modal">
+              <div class="border">
+                <h3>Color 2</h3>
+                <div class="color2-section color-grid"></div>
+                <button class="outline-btn" onclick="closeModal('color2')">Ok</button>
+              </div>
+            </div>
+
+            <div class="color-modal color3-modal">
+              <div class="border">
+                <h3>Color 3</h3>
+                <div class="color3-section color-grid"></div>
+                <button class="outline-btn" onclick="closeModal('color3')">Ok</button>
+              </div>
+            </div>
+
+            <div class="color-modal color4-modal">
+              <div class="border">
+                <h3>Color 4</h3>
+                <div class="color4-section color-grid"></div>
+                <button class="outline-btn" onclick="closeModal('color4')">Ok</button>
+              </div>
+            </div>
+
+            <div class="color-modal color-fuga-modal">
+              <div class="border">
+                <h3>Fuga color</h3>
+                <div class="color-fuga-section color-grid"></div>
+                <button class="outline-btn" onclick="closeModal('color-fuga')">Ok</button>
+              </div>
+            </div>
+          </div>
+
+          <svg id="tiles-layout"></svg> <svg id="tiles"></svg>
+
+          <svg id="svg-pivot"><circle id="pivot" class="pivot" cx="0" cy="0" r="6" /></svg>
+
+          <div class="nav-buttons">
+            <button class="outline-btn" onclick="previousPage()">Previous</button>
+            <button class="outline-btn" onclick="reviewOrder()">Next</button>
+          </div>
+        </div>
+
+        <div id="order-page" class="page-section">
+          <div id="order-section"></div>
+
+          <template id="order-template">
+            <h2>Microtiles</h2>
+            <h2>${schemeTitle}</h2>
+            <h3>Schema / Scheme ${schemeNumber}</h3>
+            <h3>Catalogo Pag. / Catalogue Pag. ${schemePage}</h3>
+            <br />
+            <div class="order-content">
+              <img src="${schemeImg}" />
+
+              <table class="main-table">
+                <tr>
+                  <th>FORMATI / SIZES</th>
+                  <td>${schemeSizes}</td>
+                </tr>
+                <tr>
+                  <th>SPESSORE / THICKNESS</th>
+                  <td>${schemeThickness}</td>
+                </tr>
+                <tr>
+                  <th>FORNITO / DELIVERED</th>
+                  <td>
+                    Su rete<br />
+                    Mesh mounted
+                  </td>
+                </tr>
+              </table>
+
+              <table class="main-table">
+                <tr>
+                  <th>SCATOLA / BOX</th>
+                  <th>PALLET / PALLET</th>
+                  <th>STUCCO / GROUT</th>
+                </tr>
+                <tr>
+                  <td>
+                    <table class="second-table">
+                      <tr>
+                        <th>PZ / PCS</th>
+                        <td>${schemeBoxPcs}</td>
+                      </tr>
+                      <tr>
+                        <th>MQ / Sqm</th>
+                        <td>${schemeBoxSqm}</td>
+                      </tr>
+                      <tr>
+                        <th>KG / KG</th>
+                        <td>${schemeBoxKg}</td>
+                      </tr>
+                    </table>
+                  </td>
+
+                  <td>
+                    <table class="second-table">
+                      <tr>
+                        <th>SCATOLE / BOXES</th>
+                        <td>${schemePalletBoxes}</td>
+                      </tr>
+                      <tr>
+                        <th>MQ / Sqm</th>
+                        <td>${schemePalletSqm}</td>
+                      </tr>
+                      <tr>
+                        <th>KG / KG</th>
+                        <td>${schemePalletKg}</td>
+                      </tr>
+                    </table>
+                  </td>
+
+                  <td>
+                    <table class="second-table">
+                      <tr>
+                        <th>KG / MQ</th>
+                        <td rowspan="2">${schemeGroutKgSqm}</td>
+                      </tr>
+                      <tr>
+                        <th>KG / Sqm</th>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div id="order-review">
+              <h3>Order review</h3>
+              <h5>Order information</h5>
+              <table class="main-table">
+                <tr>
+                  <th>SCATOLE / BOXES</th>
+                  <td>${boxAmounts}</td>
+                </tr>
+                <tr>
+                  <th>WIDTH / HEIGHT</th>
+                  <td>${width}cm / ${height}cm</td>
+                </tr>
+                <tr>
+                  <th>SFRIDO</th>
+                  <td>${sfrido}%</td>
+                </tr>
+                <tr>
+                  <th>MQ / Sqm (without sfrido)</th>
+                  <td>${sqmWOSfrido}</td>
+                </tr>
+                <tr>
+                  <th>MQ / Sqm (with sfrido)</th>
+                  <td>${sqm}</td>
+                </tr>
+                <tr>
+                  <th>KG / KG</th>
+                  <td>${totalKgs}</td>
+                </tr>
+                <tr>
+                  <th>STUCCO KG/ GROUT KG</th>
+                  <td>${groutTotalKgs}</td>
+                </tr>
+              </table>
+
+              <h5>Order tiles</h5>
+              <table class="main-table">
+                <tr id="tiles-header">
+                  <th>Tile type</th>
+                </tr>
+                <tr id="tiles-amount-dot">
+                  <th>Dot</th>
+                </tr>
+                <tr id="tiles-amount-square">
+                  <th>Square</th>
+                </tr>
+                <tr id="tiles-amount-rectangular">
+                  <th>Rectangular</th>
+                </tr>
+                <tr id="tiles-amount-squarex4">
+                  <th>Squarex4</th>
+                </tr>
+                <tr id="tiles-amount-rectangularx4">
+                  <th>Rectangularx4</th>
+                </tr>
+                <tr id="tiles-amount-total">
+                  <th>Total</th>
+                </tr>
+              </table>
+
+              <h5>Customer information</h5>
+
+              <div id="customer-information-form">
+                <div class="row">
+                  <h4>first name</h4>
+                  <div class="input"><input type="text" required /></div>
+                </div>
+                <div class="row">
+                  <h4>surname</h4>
+                  <div class="input"><input type="text" required /></div>
+                </div>
+                <div class="row">
+                  <h4>email</h4>
+                  <div class="input"><input type="text" required /></div>
+                </div>
+                <div class="row">
+                  <h4>vat number</h4>
+                  <div class="input"><input type="text" required /></div>
+                </div>
+                <div class="row">
+                  <h4>company name</h4>
+                  <div class="input"><input type="text" required /></div>
+                </div>
+                <div class="row">
+                  <h4>phone</h4>
+                  <div class="input"><input type="text" required /></div>
+                </div>
+              </div>
+            </div>
+          </template>
+
+          <div class="nav-buttons">
+            <button class="outline-btn" onclick="previousPage()">Previous</button>
+            <button class="outline-btn" onclick="submitOrder()">Submit</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.5.0/dist/svg-pan-zoom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg.zpd/0.0.11/snap.svg.zpd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/utils/Draggable.min.js"></script>
+    <script src="js/structures.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
