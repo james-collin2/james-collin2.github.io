@@ -1814,7 +1814,7 @@ const reviewOrder = () => {
   if (!order.custom) {
     order.boxAmounts = Math.ceil(order.sqm / order.schemeBoxSqm);
     order.totalKgs = Math.ceil(order.boxAmounts * order.schemeBoxKg);
-    order.groutTotalKgs = Math.ceil(order.sqm * order.schemeGroutKgSqm);
+    order.groutTotalKgs = Math.round((order.sqm * order.schemeGroutKgSqm, 2) * 100) / 100 ;
   } else {
     order.boxAmounts = "Custom";
     order.totalKgs = "Custom";
